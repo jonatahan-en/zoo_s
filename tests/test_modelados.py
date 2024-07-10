@@ -1,4 +1,5 @@
 from app.modelos import Entrada, TipoEntrada,Grupo_Entrada
+import pytest
 
 def test_crear_entrada():
     entrada = Entrada(12)
@@ -16,20 +17,39 @@ def test_crear_entrada():
     entrada = Entrada(1)
     assert entrada.tipo == TipoEntrada.BEBE
     assert entrada.precio == 0
+     
+def test_crear_entrada_edad_negativa_error():
+    with pytest.raises(ValueError):
+         Entrada(-2)
 
-def xtest_crear_entrada_edad_negativa_error():
-    pass
-    
+    '''
+    try:
+       entrada = Entrada(-2)
+       assert False, "No a saltado ValueErros"
+    exept ValueError:
+       assert True
+    '''
+def test_crear_entrada_edad_centenario_error():
+    with pytest.raises(ValueError):
+        Entrada(-2)   
+    '''
+    try:
+       entrada = Entrada(-2)
+       assert False, "No a saltado ValueError"
+    excep ValueError:
+       assert True
+    '''  
 def test_crear_grupo_entrada():
     grupo = Grupo_Entrada()
-    assert grupo.total == 0
+    assert grupo.total == 0 #atributos para la clase
     assert grupo.num_entradas == 0
     
-def test_anyadir_entrad_a_grupo()
-    grupo = Grupo_Entrada()
+def test_anyadir_entrada_a_grupo():  
+
+    grupo = Grupo_Entrada()# 1 crerar una instancia
     grupo.add_entrada(35)
     assert grupo.num_entradas == 1
-    assert grupo.total == 23
+    assert grupo.total == 23 
 
     grupo.add_entrada(12)
     assert grupo.num_entradas == 2
@@ -37,10 +57,30 @@ def test_anyadir_entrad_a_grupo()
 
     grupo.add_entrada(70)
     assert grupo.num_entradas == 3
-    assert grupo.total == 18
+    assert grupo.total == 55
 
     grupo.add_entrada(2)
     assert grupo.num_entradas == 4
-    assert grupo.total == 0
+    assert grupo.total == 55
 
+def test_cantidad_entradas_por_tipo():
+    grupo = Grupo_Entrada()
+
+    grupo.add_entrada(10)
+    assert grupo.cantidad_entradas_por_tipo(TipoEntrada.NIÑO) == 1
+
+    grupo.add_entrada(36)
+    assert grupo.cantidad_entradas_por_tipo(TipoEntrada.ADULTO) == 1
+
+    grupo.add_entrada(13)
+    assert grupo.cantidad_entradas_por_tipo(TipoEntrada.ADULTO) == 2
+
+def test_subtotal_por_tipo():
+    grupo = Grupo_Entrada()
+    grupo.add_entrada(10)
+    assert grupo.subtotal_tipo(TipoEntrada.NIÑO) == 14
+    grupo.add_entrada(35)
+    assert grupo.subtotal_tipo(TipoEntrada.ADULTO) == 23
+    grupo.add_entrada(70)
+    assert grupo.subtotal_tipo(TipoEntrada.JUBILADO) == 18
 
