@@ -1,4 +1,6 @@
 mi_entorno/
-app/__pycache__/        
+app/__pycache__/       
 tests/__init__.py
 tests/__pycache__/
+.vscode/
+
